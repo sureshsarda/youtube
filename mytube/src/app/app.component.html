@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row py-3 shadow-sm p-3 mb-5 bg-white rounded">
+        <div class="col d-flex justify-content-between">
+            <div></div>
+            <div class="w-50 d-flex justify-content-center">
+                <input type="text" pInputText placeholder="Keyword" class="w-75" [(ngModel)]="searchQuery">
+                <button class="px-4" type="button" pButton pRipple icon="pi pi-search" [routerLink]="['/', 'home']"
+                        [queryParams]="{query: searchQuery}"></button>
+            </div>
+            <div>
+                <p-avatar icon="pi pi-user"></p-avatar>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="item" *ngFor="let item of items" [routerLink]="item.url">
+                <i [className]="item.icon"></i>
+                {{ item.label }} </div>
+        </div>
+
+        <div class="col-10">
+            <div class="row" *ngIf="(categories$ | async) as categories">
+                <div class="col d-flex">
+                    <div class="chips mx-2" *ngFor="let cat of categories"
+                         [routerLink]="['categories', cat]">{{ cat }}</div>
+                </div>
+            </div>
+
+            <router-outlet></router-outlet>
+
+
+        </div>
+    </div>
+</div>

@@ -7,7 +7,14 @@ from rest_framework.views import APIView
 from .aws import create_thumbnail, upload_video
 from .models import Video, VideoCategories, Playlist
 from django.core.exceptions import ObjectDoesNotExist
-from .serializers import VideoSerializer, PlaylistSerializer
+from .serializers import VideoSerializer, PlaylistSerializer, VideoCategorySerializer
+
+
+class VideoCategoryListApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        categories = VideoCategories.objects.all()
+        serializer = VideoCategorySerializer(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class VideoListApiView(APIView):
@@ -15,7 +22,15 @@ class VideoListApiView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        videos = Video.objects.filter(status='COMPLETE')
+        base_params = {'status': 'COMPLETE'}
+        params = request.query_params
+        if 'category' in params:
+            base_params['categories__name'] = params['category']
+
+        if 'query' in params:
+            base_params['name__contains'] = params['query']
+
+        videos = Video.objects.filter(**base_params)
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -28,7 +43,7 @@ class VideoListApiView(APIView):
 
         already_present = VideoCategories.objects.filter(name__in=categories)
 
-        video = Video(name=payload['name'], uploader=request.user, status='QUEUED')
+        video = Video(name=payload['name'], uploader_id=1, status='QUEUED')
         video.save()
 
         video.categories.set(already_present)
@@ -49,7 +64,11 @@ class VideoListApiView(APIView):
 
 
 class VideoApiView(APIView):
-    pass
+
+    def get(self, request, id, *args, **kwargs):
+        videos = Video.objects.get(id=id)
+        serializer = VideoSerializer(videos)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class PlaylistApiView(APIView):
@@ -57,7 +76,7 @@ class PlaylistApiView(APIView):
     def get(self, request, name, *args, **kwargs):
         try:
             videos = Video.objects.prefetch_related('categories').filter(playlist__name=name,
-                                                                         playlist__owner=request.user)
+                                                                         playlist__owner_id=1)
 
             return Response(VideoSerializer(videos, many=True).data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
@@ -65,9 +84,9 @@ class PlaylistApiView(APIView):
 
     def put(self, request, name, video_id, *args, **kwargs):
         try:
-            playlist = Playlist.objects.get(owner=request.user, name=name)
+            playlist = Playlist.objects.get(owner_id=1, name=name)
         except ObjectDoesNotExist:
-            playlist = Playlist(name=name, owner=request.user)
+            playlist = Playlist(name=name, owner_id=1)
             playlist.save()
 
         playlist.videos.add(video_id)
@@ -76,7 +95,7 @@ class PlaylistApiView(APIView):
 
     def delete(self, request, name, video_id, *args, **kwargs):
         try:
-            playlist = Playlist.objects.get(owner=request.user, name=name)
+            playlist = Playlist.objects.get(owner_id=1, name=name)
             playlist.videos.remove(video_id)
             playlist.save()
         except ObjectDoesNotExist:

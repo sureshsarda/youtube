@@ -1,0 +1,17 @@
+<div class="row mt-3" *ngIf="(videos$ | async) as videos">
+    <div class="col d-flex flex-wrap">
+        <p-card *ngFor="let v of videos" [header]="v.name" subheader="Card Subheader" [style]="{width: '360px'}"
+                styleClass="shadow-2" class="m-2" [routerLink]="['/', 'video', v.id]">
+            <ng-template pTemplate="header">
+                <p-image [src]="v.thumbnail" alt="Image" width="250" height="250">
+                </p-image>
+            </ng-template>
+<!--            <ng-template pTemplate="footer">-->
+<!--                <p-button label="Save" icon="pi pi-check"></p-button>-->
+<!--                <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary"-->
+<!--                          [style]="{'margin-left': '.5em'}"></p-button>-->
+<!--            </ng-template>-->
+        </p-card>
+
+    </div>
+</div>

@@ -15,27 +15,13 @@ def create_thumbnail(video_file_path):
     return tmp_thumbnail_path
 
 
-# def upload_video_to_local_fs(video_file, thumbnail_file, id):
-#     base_path = 'C:\\Users\\Suresh\\Desktop\\MyTube\\storage\\'
-#
-#     # directory location
-#     directory = base_path + '\\' + id
-#     video_location = directory + '\\' + 'video.mp4'
-#     thumbnail_location = directory + '\\' + 'thumb.jpg'
-#
-#     # create a directory if not already present
-#     os.makedirs(base_path, id)
-#
-#     # copy the files
-#     with open(video_location, 'wb') as wp:
-#         wp.write(video_file.read())
-#
-#     with open(thumbnail_location, 'wb') as wp:
-#         wp.write(thumbnail_file.read())
-
-
 def upload_video(video_file_name, thumbnail_file_name, video_id):
-    s3 = boto3.resource('s3')
+    session = boto3.Session(
+        aws_access_key_id='AKIAQI7QY4PPJP4X67GY',
+        aws_secret_access_key='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',
+    )
+
+    s3 = session.resource('s3')
 
     bucket = s3.Bucket(BUCKET_NAME)
 

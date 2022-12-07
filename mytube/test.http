@@ -1,0 +1,45 @@
+POST http://54.78.51.8:8080/api/videos
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="payload"
+Content-Type: application/text
+
+{"name":"Cat", "categories": ["cat", "funny"]}
+--WebAppBoundary
+Content-Disposition: form-data; name="video"; filename="cat1.mp4"
+Content-Type: application/text
+
+< ../cats/cat%20(1).mp4
+--WebAppBoundary--
+
+####
+
+
+GET http://54.78.51.8:8080/api/videos
+
+###
+
+PUT http://54.78.51.8:8080/api/playlist/likes/1
+
+###
+DELETE http://54.78.51.8:8080/api/playlist/likes/1
+
+###
+
+GET http://54.78.51.8:8080/api/playlist/likes
+
+
+###
+
+PUT http://54.78.51.8:8080/api/playlist/later/1
+
+
+###
+GET http://54.78.51.8:8080/api/playlist/later
+
+###
+DELETE http://54.78.51.8:8080/api/playlist/later/1
+
+
+###

@@ -1,0 +1,23 @@
+
+.item {
+    font-size: 18px;
+    padding: 12px;
+    margin: 2px;
+
+}
+
+.item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.chips {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.chips:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}

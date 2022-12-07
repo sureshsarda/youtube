@@ -1,0 +1,28 @@
+<div class="container-fluid" *ngIf="(video$ | async) as video">
+    <div class="row">
+        <div class="col">
+            <video controls width="250">
+                <source [src]="video.path"
+                        type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1>{{ video.name }}</h1>
+            <span>
+            <p-avatar icon="pi pi-user" shape="circle"></p-avatar>
+                {{ video.uploader }}
+            </span>
+        </div>
+
+        <div class="col d-flex justify-content-end">
+            <span class="p-buttonset">
+            <p-button (click)="onLike(video)" class="" label="Like" icon="pi pi-thumbs-up"
+                      iconPos="left"></p-button>
+            <p-button (click)="onWatchLater(video)" styleClass="p-button-outlined" label="Watch Later" icon="pi pi-clock"
+                      iconPos="left"></p-button>
+            </span>
+        </div>
+    </div>
+</div>

@@ -11,7 +11,7 @@ class VideoCategorySerializer(serializers.ModelSerializer):
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ["name", "created", "updated", "uploader", "thumbnail", "path", "categories"]
+        fields = ["id", "name", "created", "updated", "uploader", "thumbnail", "path", "categories"]
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
