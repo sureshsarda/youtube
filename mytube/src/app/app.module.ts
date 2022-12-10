@@ -22,6 +22,7 @@ import {AvatarModule} from 'primeng/avatar';
 import { UploadComponent } from './upload/upload.component';
 import {FileUploadModule} from 'primeng/fileupload';
 import {ChipsModule} from "primeng/chips";
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {ChipsModule} from "primeng/chips";
         ChipModule,
         AvatarModule,
         FileUploadModule,
+        ScrollPanelModule,
         RouterModule.forRoot([
             {path: 'home', component: VideoListerComponent},
             {path: 'video/:videoId', component: VideoPlayerComponent},

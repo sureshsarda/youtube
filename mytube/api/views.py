@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .aws import create_thumbnail, upload_video
+from .aws import create_thumbnail, upload_video, delete_video
 from .models import Video, VideoCategories, Playlist
 from django.core.exceptions import ObjectDoesNotExist
 from .serializers import VideoSerializer, PlaylistSerializer, VideoCategorySerializer
@@ -70,6 +70,11 @@ class VideoApiView(APIView):
         serializer = VideoSerializer(videos)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def delete(self, request, id, *args, **kwargs):
+        delete_video(id)
+        Video.objects.get(id=id).delete()
+        return Response({}, status=status.HTTP_202_ACCEPTED)
+
 
 class PlaylistApiView(APIView):
 
@@ -91,7 +96,7 @@ class PlaylistApiView(APIView):
 
         playlist.videos.add(video_id)
         playlist.save()
-        return Response(status=status.HTTP_202_ACCEPTED)
+        return self.get(request, name, *args, **kwargs)
 
     def delete(self, request, name, video_id, *args, **kwargs):
         try:
@@ -102,4 +107,4 @@ class PlaylistApiView(APIView):
             # nothing to do
             pass
 
-        return Response(status=status.HTTP_202_ACCEPTED)
+        return self.get(request, name, *args, **kwargs)

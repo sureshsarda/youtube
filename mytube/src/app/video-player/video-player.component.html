@@ -18,9 +18,15 @@
 
         <div class="col d-flex justify-content-end">
             <span class="p-buttonset">
-            <p-button (click)="onLike(video)" class="" label="Like" icon="pi pi-thumbs-up"
+            <p-button *ngIf="likes.has(video.id)" (click)="onLikeRemove(video)" class="px-1" label="Remove from likes" icon="pi pi-thumbs-up"
                       iconPos="left"></p-button>
-            <p-button (click)="onWatchLater(video)" styleClass="p-button-outlined" label="Watch Later" icon="pi pi-clock"
+            <p-button *ngIf="!likes.has(video.id)" (click)="onLike(video)" class="px-1" label="Like" icon="pi pi-thumbs-up" styleClass="p-button-outlined"
+                      iconPos="left"></p-button>
+            <p-button *ngIf="later.has(video.id)" (click)="onWatchLaterRemove(video)" class="px-1" label="Remove from watch later"
+                      icon="pi pi-clock" iconPos="left"></p-button>
+            <p-button *ngIf="!later.has(video.id)" (click)="onWatchLater(video)" class="px-1" styleClass="p-button-outlined" label="Watch Later" icon="pi pi-clock"
+                      iconPos="left"></p-button>
+            <p-button *ngIf="!later.has(video.id)" (click)="onDelete(video)" class="px-1" styleClass="p-button-outlined p-button-danger" title="Delete Video" icon="pi pi-trash"
                       iconPos="left"></p-button>
             </span>
         </div>

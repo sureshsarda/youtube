@@ -14,16 +14,18 @@
     </div>
     <div class="row">
         <div class="col-2">
-            <div class="item" *ngFor="let item of items" [routerLink]="item.url">
+            <div class="item" *ngFor="let item of items" [routerLink]="item.url" routerLinkActive="active">
                 <i [className]="item.icon"></i>
                 {{ item.label }} </div>
         </div>
 
         <div class="col-10">
             <div class="row" *ngIf="(categories$ | async) as categories">
-                <div class="col d-flex">
+                <div class="col d-flex categories">
+                    <div class="chips mx-2"
+                         [routerLink]="['/', 'home']" routerLinkActive="active">All</div>
                     <div class="chips mx-2" *ngFor="let cat of categories"
-                         [routerLink]="['categories', cat]">{{ cat }}</div>
+                         [routerLink]="['categories', cat]" routerLinkActive="active">{{ cat | titlecase }}</div>
                 </div>
             </div>
 

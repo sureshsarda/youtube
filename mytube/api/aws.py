@@ -15,13 +15,14 @@ def create_thumbnail(video_file_path):
     return tmp_thumbnail_path
 
 
-def upload_video(video_file_name, thumbnail_file_name, video_id):
-    session = boto3.Session(
-        aws_access_key_id='AKIAQI7QY4PPJP4X67GY',
-        aws_secret_access_key='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',
-    )
+def delete_video(video_id):
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(BUCKET_NAME)
+    bucket.objects.filter(Prefix=str(video_id) + '/').delete()
 
-    s3 = session.resource('s3')
+
+def upload_video(video_file_name, thumbnail_file_name, video_id):
+    s3 = boto3.resource('s3')
 
     bucket = s3.Bucket(BUCKET_NAME)
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MegaMenuItem, MenuItem} from 'primeng/api';
 import {VideoService, Video} from "./video.service";
 import {Observable, of} from "rxjs";
+import {ActivatedRoute, Params} from "@angular/router";
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
 
     items: MegaMenuItem[] = [
         {
-            label: 'Home', icon: 'pi pi-fw pi-video', url: ''
+            label: 'Home', icon: 'pi pi-fw pi-video', url: '/home'
         },
         {
             label: 'Liked', icon: 'pi pi-fw pi-users', url: '/lists/likes'
@@ -24,9 +25,6 @@ export class AppComponent implements OnInit {
         {
             label: 'Watch Later', icon: 'pi pi-fw pi-calendar', url: '/lists/later'
 
-        },
-        {
-            label: 'History', icon: 'pi pi-fw pi-cog', url: '',
         },
         {
             label: 'Upload', icon: 'pi pi-upload', url: 'upload'
@@ -38,11 +36,17 @@ export class AppComponent implements OnInit {
     play: (null | Video) = null;
     searchQuery: string = '';
 
-    constructor(private service: VideoService) {
+    params: Params = {}
+
+    constructor(private service: VideoService, private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {
         this.categories$ = this.service.getVideoCategories()
+
+        this.activatedRoute.params.subscribe(params => {
+            this.params = params;
+        })
     }
 
 }

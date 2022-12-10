@@ -27,12 +27,20 @@ export class VideoService {
         return this.http.get<Video>(`/api/video/${id}`)
     }
 
-    like(id: number): Observable<any> {
+    like(id: number): Observable<Video[]> {
         return this.http.put<any>(`/api/playlist/likes/${id}`, {})
     }
 
-    watchLater(id: number): Observable<any> {
+    unlike(id: number): Observable<Video[]> {
+        return this.http.delete<any>(`/api/playlist/likes/${id}`, {})
+    }
+
+    watchLater(id: number): Observable<Video[]> {
         return this.http.put<any>(`/api/playlist/later/${id}`, {})
+    }
+
+    removeWatchLater(id: number): Observable<Video[]> {
+        return this.http.delete<any>(`/api/playlist/later/${id}`, {})
     }
 
     getVideoCategories(): Observable<string[]> {
@@ -56,31 +64,9 @@ export class VideoService {
 
     getAllVideos(params = {}): Observable<Video[]> {
         return this.http.get<Video[]>('/api/videos', {params})
-        // return of([
-        //   {
-        //     "name": "Cat",
-        //     "created": "2022-12-07T15:20:27.677491Z",
-        //     "updated": "2022-12-07T15:20:29.438560Z",
-        //     "uploader": 1,
-        //     "thumbnail": "https://x21169489-mytube.s3.amazonaws.com/2/thumb.jpg",
-        //     "path": "https://x21169489-mytube.s3.amazonaws.com/2/video.mp4",
-        //     "categories": [
-        //       1,
-        //       2
-        //     ]
-        //   },
-        //   {
-        //     "name": "Cat",
-        //     "created": "2022-12-07T15:21:00.036830Z",
-        //     "updated": "2022-12-07T15:21:01.544856Z",
-        //     "uploader": 1,
-        //     "thumbnail": "https://x21169489-mytube.s3.amazonaws.com/3/thumb.jpg",
-        //     "path": "https://x21169489-mytube.s3.amazonaws.com/3/video.mp4",
-        //     "categories": [
-        //       1,
-        //       2
-        //     ]
-        //   }
-        // ])
+    }
+
+    delete(id: number): Observable<any> {
+        return this.http.delete(`/api/video/${id}`)
     }
 }
